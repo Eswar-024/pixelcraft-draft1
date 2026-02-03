@@ -1,0 +1,499 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Core cyber palette - NO gradients */
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+
+    --primary: 30 100% 50%;
+    --primary-foreground: 0 0% 0%;
+
+    --secondary: 50 100% 50%;
+    --secondary-foreground: 0 0% 0%;
+
+    --accent: 50 100% 50%;
+    --accent-foreground: 0 0% 0%;
+
+    --muted: 0 0% 10%;
+    --muted-foreground: 0 0% 60%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 100%;
+
+    --border: 30 100% 50%;
+    --input: 0 0% 15%;
+    --ring: 30 100% 50%;
+    --radius: 0px;
+
+    /* Custom cyber colors */
+    --cyber-orange: 30 100% 50%;
+    --cyber-yellow: 50 100% 50%;
+    --cyber-white: 0 0% 100%;
+    --cyber-black: 0 0% 0%;
+
+    /* Money page colors */
+    --money-green: 140 70% 40%;
+    --money-violet: 280 70% 50%;
+    --money-bg: 0 0% 100%;
+
+    --sidebar-background: 0 0% 5%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 30 100% 50%;
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 50 100% 50%;
+    --sidebar-accent-foreground: 0 0% 0%;
+    --sidebar-border: 30 100% 50%;
+    --sidebar-ring: 30 100% 50%;
+  }
+
+  .dark {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html,
+  body {
+    overflow: hidden;
+    font-family: 'Press Start 2P', monospace;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 32 32'%3E%3Cg transform='rotate(15 16 16)'%3E%3C!-- Rocket body --%3E%3Cpath fill='%23ff8c00' d='M16 2l-4 8h8l-4-8z'/%3E%3Cpath fill='%23ff8c00' d='M12 10h8v8h-8z'/%3E%3C!-- Window --%3E%3Ccircle cx='16' cy='14' r='2.5' fill='%23ffffff'/%3E%3Ccircle cx='16' cy='14' r='1.5' fill='%2300d4ff'/%3E%3C!-- Side fins --%3E%3Cpath fill='%23ffa500' d='M10 14l-4 4v2l4-4v-2z'/%3E%3Cpath fill='%23ffa500' d='M22 14l4 4v2l-4-4v-2z'/%3E%3C!-- Bottom --%3E%3Cpath fill='%23ff8c00' d='M12 18l2 2h4l2-2h-8z'/%3E%3C!-- Flames --%3E%3Cpath fill='%23ff0000' d='M13 20l1 4 1-2 1 2 1-4h-4z'/%3E%3Cpath fill='%23ff4500' d='M14 20l1 6 1-6h-2z'/%3E%3Cpath fill='%23ffff00' d='M15 20l1 8 1-8h-2z'/%3E%3C/g%3E%3C/svg%3E") 20 0, auto;
+  }
+}
+
+@layer components {
+
+  /* Pixel button base */
+  .pixel-btn {
+    @apply relative px-6 py-3 font-pixel text-xs uppercase tracking-wider;
+    @apply border-2 border-cyber-orange text-cyber-white bg-transparent;
+    @apply transition-all duration-100;
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  }
+
+  .pixel-btn:hover {
+    @apply border-cyber-yellow text-cyber-yellow;
+    animation: glitch-shake 0.1s ease-in-out;
+  }
+
+  .pixel-btn:active {
+    @apply bg-cyber-yellow text-cyber-black;
+  }
+
+  /* Glitch text effect */
+  .glitch-text {
+    @apply relative;
+  }
+
+  .glitch-text::before,
+  .glitch-text::after {
+    content: attr(data-text);
+    @apply absolute top-0 left-0 w-full h-full;
+  }
+
+  .glitch-text::before {
+    @apply text-cyber-orange;
+    animation: glitch-1 2s infinite linear alternate-reverse;
+    clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+  }
+
+  .glitch-text::after {
+    @apply text-cyber-yellow;
+    animation: glitch-2 3s infinite linear alternate-reverse;
+    clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+  }
+
+  /* Terminal cursor */
+  .terminal-cursor {
+    @apply inline-block w-3 h-5 bg-cyber-white ml-1;
+    animation: blink 0.8s step-end infinite;
+  }
+
+  /* Scanline overlay */
+  .scanlines {
+    @apply pointer-events-none fixed inset-0 z-50;
+    background: repeating-linear-gradient(0deg,
+        transparent,
+        transparent 2px,
+        rgba(255, 255, 255, 0.02) 2px,
+        rgba(255, 255, 255, 0.02) 4px);
+  }
+
+  /* Grain overlay */
+  .grain {
+    @apply pointer-events-none fixed inset-0 z-40 opacity-[0.03];
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  }
+
+  /* Hex/broken frame */
+  .hex-frame {
+    clip-path: polygon(0 15%, 5% 0, 95% 0, 100% 15%,
+        100% 85%, 95% 100%, 5% 100%, 0 85%);
+  }
+
+  .broken-frame {
+    clip-path: polygon(0 0, 70% 0, 75% 5%, 100% 5%,
+        100% 70%, 95% 75%, 95% 100%,
+        30% 100%, 25% 95%, 0 95%);
+  }
+
+  /* Room/section base */
+  .cyber-room {
+    @apply flex-shrink-0 w-screen h-screen flex items-center justify-center;
+    @apply relative overflow-hidden;
+  }
+
+  /* Orange glow */
+  .orange-glow {
+    box-shadow: 0 0 30px hsl(var(--cyber-orange) / 0.5),
+      0 0 60px hsl(var(--cyber-orange) / 0.3);
+  }
+
+  /* Yellow glow */
+  .yellow-glow {
+    box-shadow: 0 0 20px hsl(var(--cyber-yellow) / 0.5);
+  }
+
+  /* Cartridge style */
+  .cartridge {
+    @apply relative px-4 py-8 border-2 border-cyber-orange;
+    clip-path: polygon(0 0, 100% 0, 100% 85%,
+        85% 100%, 15% 100%, 0 85%);
+  }
+
+  .cartridge:hover {
+    @apply border-cyber-yellow;
+    animation: glitch-shake 0.15s ease-in-out;
+  }
+
+  /* Inventory block */
+  .skill-block {
+    @apply px-4 py-2 border-2 border-cyber-orange text-cyber-white;
+    @apply text-[10px] uppercase tracking-wider;
+    clip-path: polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px));
+  }
+
+  .skill-block:hover {
+    @apply border-cyber-yellow text-cyber-yellow;
+    animation: glitch-shake 0.1s ease-in-out;
+  }
+
+  /* Money page styles */
+  .money-page {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+    @apply bg-money-bg text-black;
+  }
+
+  .money-btn {
+    @apply px-8 py-4 text-xs uppercase tracking-wider;
+    @apply bg-money-green text-white border-2 border-money-violet;
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  }
+
+  .money-btn:hover {
+    @apply bg-money-violet;
+  }
+}
+
+@layer utilities {
+  .font-pixel {
+    font-family: 'Press Start 2P', monospace;
+  }
+
+  .text-cyber-orange {
+    color: hsl(var(--cyber-orange));
+  }
+
+  .text-cyber-yellow {
+    color: hsl(var(--cyber-yellow));
+  }
+
+  .text-cyber-white {
+    color: hsl(var(--cyber-white));
+  }
+
+  .text-money-green {
+    color: hsl(var(--money-green));
+  }
+
+  .text-money-violet {
+    color: hsl(var(--money-violet));
+  }
+
+  .bg-cyber-orange {
+    background-color: hsl(var(--cyber-orange));
+  }
+
+  .bg-cyber-yellow {
+    background-color: hsl(var(--cyber-yellow));
+  }
+
+  .bg-cyber-black {
+    background-color: hsl(var(--cyber-black));
+  }
+
+  .bg-money-bg {
+    background-color: hsl(var(--money-bg));
+  }
+
+  .bg-money-green {
+    background-color: hsl(var(--money-green));
+  }
+
+  .bg-money-violet {
+    background-color: hsl(var(--money-violet));
+  }
+
+  .border-cyber-orange {
+    border-color: hsl(var(--cyber-orange));
+  }
+
+  .border-cyber-yellow {
+    border-color: hsl(var(--cyber-yellow));
+  }
+
+  .border-money-violet {
+    border-color: hsl(var(--money-violet));
+  }
+
+  .border-money-green {
+    border-color: hsl(var(--money-green));
+  }
+}
+
+/* Keyframe animations */
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes glitch-1 {
+
+  0%,
+  100% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(-2px, 1px);
+  }
+
+  40% {
+    transform: translate(2px, -1px);
+  }
+
+  60% {
+    transform: translate(-1px, 2px);
+  }
+
+  80% {
+    transform: translate(1px, -2px);
+  }
+}
+
+@keyframes glitch-2 {
+
+  0%,
+  100% {
+    transform: translate(0);
+  }
+
+  25% {
+    transform: translate(2px, 2px);
+  }
+
+  50% {
+    transform: translate(-2px, -1px);
+  }
+
+  75% {
+    transform: translate(1px, -2px);
+  }
+}
+
+@keyframes glitch-shake {
+
+  0%,
+  100% {
+    transform: translate(0);
+  }
+
+  25% {
+    transform: translate(-3px, 0);
+  }
+
+  50% {
+    transform: translate(3px, 0);
+  }
+
+  75% {
+    transform: translate(-2px, 0);
+  }
+}
+
+@keyframes star-drift {
+  0% {
+    transform: translateY(0) translateX(0);
+  }
+
+  100% {
+    transform: translateY(100vh) translateX(-50px);
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes zoom-in {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes flicker {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+
+  75% {
+    opacity: 0.95;
+  }
+}
+
+@keyframes scanline-flash {
+
+  0%,
+  90%,
+  100% {
+    opacity: 0;
+  }
+
+  95% {
+    opacity: 0.1;
+  }
+}
+
+@keyframes power-up {
+  0% {
+    transform: scale(0) rotate(-10deg);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(1.1) rotate(5deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes cartridge-insert {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  70% {
+    transform: translateY(10%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes cartridge-eject {
+  0% {
+    transform: translateY(0);
+  }
+
+  30% {
+    transform: translateY(10%);
+  }
+
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+.animate-star-drift {
+  animation: star-drift linear infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-zoom-in {
+  animation: zoom-in 0.5s ease-out forwards;
+}
+
+.animate-flicker {
+  animation: flicker 0.15s ease-in-out;
+}
+
+.animate-power-up {
+  animation: power-up 0.4s ease-out forwards;
+}
+
+.animate-cartridge-insert {
+  animation: cartridge-insert 0.5s ease-out forwards;
+}
+
+.animate-cartridge-eject {
+  animation: cartridge-eject 0.4s ease-in forwards;
+}
+
+.animate-glitch-shake {
+  animation: glitch-shake 0.15s ease-in-out;
+}
