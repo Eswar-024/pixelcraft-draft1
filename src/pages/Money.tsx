@@ -17,8 +17,9 @@ const Money = () => {
   const generateUpiLink = (amountValue: string) => {
     const upiId = import.meta.env.VITE_UPI_ID || "eswar@paytm";
     const upiName = import.meta.env.VITE_UPI_NAME || "Eswar Portfolio";
+    const transactionNote = "Portfolio Demo Payment";
 
-    return `upi://pay?pa=${upiId}&pn=${encodeURIComponent(upiName)}&am=${amountValue}&cu=INR`;
+    return `upi://pay?pa=${upiId}&pn=${encodeURIComponent(upiName)}&am=${amountValue}&cu=INR&tn=${encodeURIComponent(transactionNote)}`;
   };
 
   const handlePayment = () => {
